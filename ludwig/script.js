@@ -135,7 +135,7 @@ function setClipInfo(number, info) {
     document.getElementById(number + '-title').innerHTML = `"${info.title}"`
     document.getElementById(number + '-clip').innerHTML = `
     <iframe
-        src="https://player.twitch.tv/embed?clip=${info.id}&parent=blucubed.github.io"
+        src="https://clips.twitch.tv/embed?clip=${info.id}&parent=blucubed.github.io"
         height="<height>"
         width="<width>"
         allowfullscreen="<allowfullscreen>">

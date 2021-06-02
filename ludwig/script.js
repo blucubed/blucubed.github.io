@@ -146,6 +146,7 @@ function setClipInfo(number, info) {
 
     function hideViews() {
         let views = document.getElementsByClassName('sc-AxirZ Tlrbl');
+        console.log('test')
 
         if (views.length > 0) {
             for (y of views) {

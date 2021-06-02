@@ -1,0 +1,268 @@
+:root {
+    --pink: #F34C9A;
+}
+
+body {
+    text-align: center;
+    margin: 0px;
+    background: url(images/bg-1.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
+    color: white;
+    overflow: hidden;
+  }
+
+.site-logo {
+    width: 300px;
+    transition: 0.2s;
+}
+
+.site-logo:hover {
+    transform: scale(1.1);
+}
+
+.footer {
+    position: fixed;
+    bottom: 25px;
+    width: 100%;
+    text-align: center;
+}
+
+.description {
+    font-size: 16pt;
+    font-weight: 400;
+    margin-top: 30px;
+    margin-bottom: 90px;
+}
+
+a {
+    color: #8bd6fc;
+}
+
+.desc-title {
+    font-weight: 900;
+    font-size: 22pt;
+    color: var(--pink);
+}
+
+button {
+    padding: 20px;
+    width: 200px;
+
+    background: none;
+    border: 3px solid white;
+    border-radius: 200px;
+
+    font-weight: 600;
+    color: white;
+    font-size: 16pt;
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.2s;
+
+}
+
+.wlogo {
+    border-radius: 0px 200px 200px 0px;
+}
+
+button:hover {
+    color: #752F57;
+    background-color: white;
+}
+
+.buttons {
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    margin-left: -60px;
+}
+
+.button-logo {
+    height: 90px;
+    position: relative;
+    display: block;
+    left: 50px;
+    pointer-events: none;
+}
+
+.button-div {
+    display: block;
+}
+
+.smaller {
+    transform: scale(0.8);
+}
+
+#ytbtn:hover + #lfrog {
+    transform: scale(2) !important;
+}
+
+#home-cont {
+    transition: opacity 0.5s;
+}
+
+#game-cont {
+    opacity: 0;
+    pointer-events: none;
+    animation: fadeIn ease 0.05s;
+}
+
+.option {
+    background-color: white;
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.opos0 {
+    animation: opos0 ease 0.25s;
+    left: -50%;
+}
+
+.opos1 {
+    animation: opos1 ease 0.25s;
+    left: 0%;
+}
+
+.opos2 {
+    animation: opos2 ease 0.25s;
+    left: 50%;
+}
+
+@keyframes opos0 {
+    0% {
+        left: 0%;
+    }
+    100% {
+        left: -50%;
+    }
+}
+
+@keyframes opos1 {
+    0% {
+        left: 50%;
+    }
+    100% {
+        left: 0%;
+    }
+}
+
+@keyframes opos2 {
+    0% {
+        left: 100%;
+    }
+    100% {
+        left: 50%;
+    }
+}
+
+
+@keyframes fadeIn {
+    0% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
+/* OPT STUFF */
+
+.option-cont {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 30px;
+
+}
+
+.opt-vid {
+    margin: auto;
+    height: 17.9vw;
+    width: 32vw;
+    overflow: hidden;
+    transition: all 0.2s;
+    vertical-align: middle;
+    transform: scale(1);
+
+    filter: drop-shadow(0 0px 5px rgba(0, 0, 0, 0.35));
+}
+
+.opt-vid img {
+    width: 100%;
+    vertical-align: middle;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.opt-vid:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0px 10px rgba(0, 0, 0, 0.5));
+}
+
+.opt-title {
+    font-size: 32pt;
+    margin: 25px 0px 5px 0px;
+    color: var(--pink);
+    line-height: 95%;
+}
+
+.opt-small {
+    font-size: 20pt;
+}
+
+.opt-big {
+    font-size: 38pt;
+    color: var(--pink)
+}
+
+.opt-info {
+    height: 225px;
+}
+
+.higher-btn {
+    margin-top: 25px;
+}
+
+.lower-btn {
+    margin-top: 25px;
+}
+
+.opt-buttons button {
+    border-radius: 200px;
+}
+
+.lose-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.lose-desc {
+    font-weight: 900;
+    font-size: 22pt;
+    color: var(--pink);
+    margin: 20px 0px 20px 0px;
+}
+
+#lose-score {
+    font-size: 16pt;
+    font-weight: 400;
+    margin-bottom: 40px;
+}

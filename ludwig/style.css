@@ -235,6 +235,18 @@ button:hover {
     height: 225px;
 }
 
+.opt-clip {
+    margin: auto;
+    height: 17.9vw;
+    width: 32vw;
+    transition: all 0.2s;
+    vertical-align: middle;
+}
+
+.opt-clip video {
+    width: 100%;
+}
+
 .higher-btn {
     margin-top: 25px;
 }

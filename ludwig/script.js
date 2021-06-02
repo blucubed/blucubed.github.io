@@ -134,12 +134,10 @@ function setClipInfo(number, info) {
 
     document.getElementById(number + '-title').innerHTML = `"${info.title}"`
     document.getElementById(number + '-clip').innerHTML = `
-    <iframe
-        src="https://clips.twitch.tv/embed?clip=${info.id}&parent=blucubed.github.io"
-        height="<height>"
-        width="<width>"
-        allowfullscreen="<allowfullscreen>">
-    </iframe>`
+    <video controls>
+        <source src="${info.thumbnail.split('-preview')[0]}.mp4"
+                type="video/mp4">
+    </video>`
     document.getElementById(number + '-viewnum').innerHTML = comma(info.views)
     document.getElementById(number + '-views').innerHTML = 'views'
     document.getElementById(number + '-has').innerHTML = 'has' 

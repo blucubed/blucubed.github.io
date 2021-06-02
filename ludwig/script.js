@@ -144,11 +144,22 @@ function setClipInfo(number, info) {
     document.getElementById(number + '-views').innerHTML = 'views'
     document.getElementById(number + '-has').innerHTML = 'has' 
 
-    let views = document.getElementsByClassName('sc-AxirZ Tlrbl');
+    function hideViews() {
+        let views = document.getElementsByClassName('sc-AxirZ Tlrbl');
 
-    for (y of views) {
-        y.style.display = "none";
+        if (views.length > 0) {
+            for (y of views) {
+                y.style.display = "none";
+            }
+        } else {
+            hideViews()
+        }
+        
     }
+
+    hideViews()
+
+    
 }
 
 // Set the YT buttons on a side

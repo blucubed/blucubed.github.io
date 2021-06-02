@@ -153,7 +153,9 @@ function setClipInfo(number, info) {
                 y.style.display = "none";
             }
         } else {
-            hideViews()
+            setTimeout(() => {
+                hideViews()
+            }, 100);
         }
         
     }

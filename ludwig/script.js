@@ -142,7 +142,13 @@ function setClipInfo(number, info) {
     </iframe>`
     document.getElementById(number + '-viewnum').innerHTML = comma(info.views)
     document.getElementById(number + '-views').innerHTML = 'views'
-    document.getElementById(number + '-has').innerHTML = 'has'
+    document.getElementById(number + '-has').innerHTML = 'has' 
+
+    let views = document.getElementsByClassName('sc-AxirZ Tlrbl');
+
+    for (y of views) {
+        y.style.display = "none";
+    }
 }
 
 // Set the YT buttons on a side

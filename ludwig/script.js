@@ -1,19 +1,36 @@
-let game = {
-    left: null,
-    right: null
+let currentBg = 4; // The background that the last 
+let lastGm = 0;    // Last gamemode played (0: YT, 1: Clips)
+let score = 0;     // Current player score
+
+let game = {left: null, right: null} // This holds the left and right videos / clips
+
+function load() {
+    document.getElementById('ytbtn').addEventListener('mouseover', () => {
+        document.getElementById('mode-desc').innerHTML = "Pick the more popular option between two of Ludwig's 550+ YouTube videos"
+    })
+
+    document.getElementById('clipsbtn').addEventListener('mouseover', () => {
+        document.getElementById('mode-desc').innerHTML = "Pick the more popular option between two of Ludwig's top 800 Twitch clips"
+    })
+
+    document.getElementById('ytbtn').addEventListener('mouseout', () => {
+        document.getElementById('mode-desc').innerHTML = "Choose the option with the higher views!"
+    })
+
+    document.getElementById('clipsbtn').addEventListener('mouseout', () => {
+        document.getElementById('mode-desc').innerHTML = "Choose the option with the higher views!"
+    })
 }
 
-let lastGm = 0;
 
-let score = 0;
-let currentBg = 4;
-
-// 
-function startYT() {
-    lastGm = 0;
+// Start the game
+function start(gamemode = lastGm) {
     score = 0;
+    currentBg = 4;
+    lastGm = gamemode;
 
     resetYTVids()
+    resetClips()
 
     document.getElementById('home-cont').style.opacity = 0;
     document.getElementById('home-cont').style.pointerEvents = 'none'
@@ -26,27 +43,26 @@ function startYT() {
     game.left = randomVideo();
     game.right = randomVideo();
 
-    console.log(game)
+    setInfo(0, game.left)
+    setInfo(1, game.right)
 
-    setYTInfo(0, game.left)
-    setYTInfo(1, game.right)
-
-    setYTButtons(1)
-
-    console.log(game.left)
+    setButtons(1)
 }
 
-// Generate a random YouTube video
+// Generate a random video
 function randomVideo() {
     if (ytVids.length == 0) resetYTVids();
-    return ytVids.splice(Math.floor(Math.random() * (ytVids.length - 1)), 1)[0]
+    if (clips.length == 0) resetClips();
+
+    if (lastGm == 0) return ytVids.splice(Math.floor(Math.random() * (ytVids.length - 1)), 1)[0]    
+    else if (lastGm == 1) return clips.splice(Math.floor(Math.random() * (clips.length - 1)), 1)[0]
 }
 
-// Set the YT info on a side
-function setYTInfo(number, info) {
+// Set the info for one of the sides
+function setInfo(number, info) {
     document.getElementById('option-' + number).innerHTML = `
     <div class="option-cont">
-        <div id="${number}-vid" class="opt-vid"></div>
+        <div id="${number}-vid" class="${lastGm == 0 ? 'opt-vid' : 'opt-clip'}"></div>
 
         <div class="opt-info" id="${number}-info">
             <div id="${number}-title" class="opt-title"></div>
@@ -60,133 +76,35 @@ function setYTInfo(number, info) {
         </div>
     </div>`
 
-    console.log(info)
-
     document.getElementById(number + '-title').innerHTML = `"${info.title}"`
-    document.getElementById(number + '-vid').innerHTML = `<img src="${info.thumbnail}" alt="Thumbnail"></img>`
     document.getElementById(number + '-viewnum').innerHTML = comma(info.views)
     document.getElementById(number + '-views').innerHTML = 'views'
     document.getElementById(number + '-has').innerHTML = 'has'
+
+    if (lastGm == 0) 
+        document.getElementById(number + '-vid').innerHTML = `<img src="${info.thumbnail}" alt="Thumbnail"></img>`
+    else if (lastGm == 1) 
+        document.getElementById(number + '-vid').innerHTML = `<video controls><source src="${info.thumbnail.split('-preview')[0]}.mp4" type="video/mp4"></video>`
 }
 
-// Set the YT buttons on a side
-function setYTButtons(number) {
+function setButtons(number) {
     document.getElementById(number + '-has').style.display = "none"
-    document.getElementById(number + '-viewnum').style.display = "none"
     document.getElementById(number + '-views').style.display = "none"
-
+    document.getElementById(number + '-viewnum').style.display = "none"
     document.getElementById(number + '-buttons').style.display = "block"
 }
-
-// Start the twitch clips game
-function startTwitch() {
-    lastGm = 1;
-    score = 0;
-
-    resetClips()
-
-    document.getElementById('home-cont').style.opacity = 0;
-    document.getElementById('home-cont').style.pointerEvents = 'none'
-
-    let gameCont = document.getElementById('game-cont');
-    gameCont.style.pointerEvents = 'inherit'
-    gameCont.style.transition = "opacity 1s"
-    gameCont.style.opacity = 1
-
-    game.left = randomClip();
-    game.right = randomClip();
-
-    console.log(game)
-
-    setClipInfo(0, game.left)
-    setClipInfo(1, game.right)
-
-    setClipButtons(1)
-
-    console.log(game.left)
-}
-
-// Generate a random Clip
-function randomClip() {
-    if (clips.length == 0) resetClips();
-    return clips.splice(Math.floor(Math.random() * (clips.length - 1)), 1)[0]
-}
-
-// Set the YT info on a side
-function setClipInfo(number, info) {
-    document.getElementById('option-' + number).innerHTML = `
-    <div class="option-cont">
-        <div id="${number}-clip" class="opt-clip"></div>
-
-        <div class="opt-info" id="${number}-info">
-            <div id="${number}-title" class="opt-title"></div>
-            <div id="${number}-has" class="opt-small"></div>
-            <div id="${number}-viewnum" class="opt-big"></div>
-            <div id="${number}-views" class="opt-small"></div>
-            <div id="${number}-buttons" class="opt-buttons" style="display: none">
-                <button class="higher-btn" onclick="guess(true, ${number})">Higher &#9650;</button><br>
-                <button class="lower-btn" onclick="guess(false, ${number})">Lower &#9660;</button>
-            </div>
-        </div>
-    </div>`
-
-    console.log(info)
-
-    document.getElementById(number + '-title').innerHTML = `"${info.title}"`
-    document.getElementById(number + '-clip').innerHTML = `
-    <video controls>
-        <source src="${info.thumbnail.split('-preview')[0]}.mp4"
-                type="video/mp4">
-    </video>`
-    document.getElementById(number + '-viewnum').innerHTML = comma(info.views)
-    document.getElementById(number + '-views').innerHTML = 'views'
-    document.getElementById(number + '-has').innerHTML = 'has' 
-
-    function hideViews() {
-        let views = document.getElementsByClassName('sc-AxirZ Tlrbl');
-        console.log('test')
-
-        if (views.length > 0) {
-            for (y of views) {
-                y.style.display = "none";
-            }
-        } else {
-            setTimeout(() => {
-                hideViews()
-            }, 100);
-        }
-        
-    }
-
-    hideViews()
-
-    
-}
-
-// Set the YT buttons on a side
-function setClipButtons(number) {
-    document.getElementById(number + '-has').style.display = "none"
-    document.getElementById(number + '-viewnum').style.display = "none"
-    document.getElementById(number + '-views').style.display = "none"
-
-    document.getElementById(number + '-buttons').style.display = "block"
-}
-
-//
-// UNIVERSAL STUFF
-//
 
 function guess(higher, number) {
+    const answer = parseInt(game.left.views) < parseInt(game.right.views); // The correct answer as a bool
 
-    let answer = parseInt(game.left.views) < parseInt(game.right.views);
+    const interval = 50   // MS between each frame of the countup
+    const animTime = 750; // Total time for the number to count up
+    let frame = 0;        // The current frame number
 
-    document.getElementById(number + '-buttons').style.display = 'none'
+    const tween = Math.ceil(game.right.views/interval) // Amount of views increased each frame
+    let current = 0; // Current number
 
-    let interval = 50 // in ms
-    let animTime = 750;
-    let frame = 0;
-    let tween = Math.ceil(game.right.views / interval)
-    let current = 0;
+    document.getElementById(number + '-buttons').style.display = 'none' // Hide the buttons
 
     let viewDisp = document.getElementById(number + '-viewnum')
     viewDisp.style.display = 'block';
@@ -197,84 +115,65 @@ function guess(higher, number) {
     function numAnim() {
         current += tween;
         viewDisp.innerHTML = comma(current.toString());
-
         frame++;
-        if (frame < interval) {
-            setTimeout(() => {
-                numAnim()
-            }, animTime/interval);
-        } else {
-            onEnd()
-        }
+
+        if (frame < interval) setTimeout(() => numAnim(), animTime/interval); // Keep looping this 
+        else onEnd()
     }
 
     function onEnd() {
         viewDisp.innerHTML = comma(game.right.views);
 
         setTimeout(() => {
-            console.log(answer)
-            if (answer == higher || parseInt(game.left.views) == parseInt(game.right.views)) {
+            if (answer == higher || parseInt(game.left.views) == parseInt(game.right.views)) { // If answer is correct or the same
                 currentBg++;
                 if (currentBg == 5) currentBg = 1;
+
                 score++;
                 document.getElementById('game-cont').innerHTML += `<div id="option-${score + 1}" class="option opos2" style="background: url(images/bg-${currentBg}.png);"></div>`
                 document.getElementById('option-' + (score)).classList = 'option opos1'
                 document.getElementById('option-' + (score - 1)).classList = 'option opos0'
 
                 game.left = game.right;
-                if (lastGm == 0) game.right = randomVideo()
-                else game.right = randomClip()
+                game.right = randomVideo()
 
-                if (lastGm == 0) {
-                    setYTInfo(score + 1, game.right)
-                    setYTButtons(score + 1)
-                } else {
-                    setClipInfo(score + 1, game.right)
-                    setClipButtons(score + 1)
-                }
+                setInfo(score + 1, game.right)
+                setButtons(score + 1)
 
-                setTimeout(() => {
-                    document.getElementById('option-' + (score - 1)).remove()
-                }, 250);
-            } else {
-                setTimeout(() => {
-                    lose()
-                }, 500);
-            }
+                setTimeout(() => document.getElementById('option-' + (score - 1)).remove(), 250);
+            } else setTimeout(() => lose(), 500); // Lose the game after 500 ms
         }, 1000);
-    
-        
     }
 
     numAnim()
-
-    
 }
 
 function lose() {
-    document.getElementById('game-cont').style.opacity = '0'
-    document.getElementById('game-cont').style.transition = 'opacity 0s'
-    document.getElementById('game-cont').style.pointerEvents = 'none'
+    resetGameCont()
+
     document.getElementById('lose-cont').style.display = 'block'
     document.getElementById('lose-score').innerHTML = `You got a score of ${score}!`
-    document.getElementById('game-cont').innerHTML = `<div id="option-0" class="option opos1" style="background: url(images/bg-3.png);"></div>
-    <div id="option-1" class="option opos2" style="background: url(images/bg-4.png);"></div>`
 }
 
 function home() {
+    resetGameCont()
+
     document.getElementById('lose-cont').style.display = 'none';
     document.getElementById('home-cont').style.opacity = '1';
     document.getElementById('home-cont').style.pointerEvents = 'inherit';
 }
 
-function replay() {
-    if (lastGm == 0) {
-        startYT();
-    } else {
-        startTwitch()
-    }
+function resetGameCont() {
+    document.getElementById('game-cont').style.opacity = '0'
+    document.getElementById('game-cont').style.transition = 'opacity 0s'
+    document.getElementById('game-cont').style.pointerEvents = 'none'
+    
+    document.getElementById('game-cont').innerHTML = `<div id="option-0" class="option opos1" style="background: url(images/bg-3.png);"></div>
+    <div id="option-1" class="option opos2" style="background: url(images/bg-4.png);"></div><img src="images/logo_wh.png" alt="Home" class="game-site-logo" onclick="home()">`
+
 }
 
 function comma(x) {
     return x.toString().split('').map((x,i,a) => ((a.length - i) % 3 == 0 && i != 0 ? ',' : '') + x).join('')
 }
+

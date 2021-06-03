@@ -1,3 +1,5 @@
+/* Root Stuff */
+
 :root {
     --pink: #F34C9A;
 }
@@ -14,10 +16,36 @@ body {
     font-weight: 600;
     color: white;
     overflow: hidden;
-  }
+}
+
+button {
+    padding: 20px;
+    width: 200px;
+
+    background: none;
+    border: 3px solid white;
+    border-radius: 200px;
+
+    font-weight: 600;
+    color: white;
+    font-size: 16pt;
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+button:hover {
+    color: #752F57;
+    background-color: white;
+}
+
+a {
+    color: #8bd6fc;
+}
+
+/* Home Page */
 
 .site-logo {
-    width: 300px;
+    width: 30vh;
     transition: 0.2s;
 }
 
@@ -39,39 +67,14 @@ body {
     margin-bottom: 90px;
 }
 
-a {
-    color: #8bd6fc;
-}
-
 .desc-title {
     font-weight: 900;
     font-size: 22pt;
     color: var(--pink);
 }
 
-button {
-    padding: 20px;
-    width: 200px;
-
-    background: none;
-    border: 3px solid white;
-    border-radius: 200px;
-
-    font-weight: 600;
-    color: white;
-    font-size: 16pt;
-    cursor: pointer;
-    transition: color 0.2s, background-color 0.2s;
-
-}
-
-.wlogo {
+.wlogo { 
     border-radius: 0px 200px 200px 0px;
-}
-
-button:hover {
-    color: #752F57;
-    background-color: white;
 }
 
 .buttons {
@@ -104,6 +107,12 @@ button:hover {
 #home-cont {
     transition: opacity 0.5s;
 }
+
+#mode-desc {
+    margin-top: 20px;
+}
+
+/* Game */
 
 #game-cont {
     opacity: 0;
@@ -138,44 +147,22 @@ button:hover {
     left: 50%;
 }
 
-@keyframes opos0 {
-    0% {
-        left: 0%;
-    }
-    100% {
-        left: -50%;
-    }
+.game-site-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    width: 26vh;
+    top: 10px;
+    transition: all 0.2s;
 }
 
-@keyframes opos1 {
-    0% {
-        left: 50%;
-    }
-    100% {
-        left: 0%;
-    }
+.game-site-logo:hover {
+    cursor: pointer;
+    transform: translateX(-50%) scale(1.1);
 }
 
-@keyframes opos2 {
-    0% {
-        left: 100%;
-    }
-    100% {
-        left: 50%;
-    }
-}
-
-
-@keyframes fadeIn {
-    0% {
-        opacity:0;
-    }
-    100% {
-        opacity:1;
-    }
-}
-
-/* OPT STUFF */
+/* Options */
 
 .option-cont {
     position: absolute;
@@ -185,7 +172,7 @@ button:hover {
     width: 100%;
     text-align: center;
     box-sizing: border-box;
-    padding: 30px;
+    padding: 60px;
 
 }
 
@@ -259,6 +246,8 @@ button:hover {
     border-radius: 200px;
 }
 
+/* Lose */
+
 .lose-center {
     position: absolute;
     left: 50%;
@@ -277,4 +266,43 @@ button:hover {
     font-size: 16pt;
     font-weight: 400;
     margin-bottom: 40px;
+}
+
+/* Animations */
+
+@keyframes opos0 {
+    0% {
+        left: 0%;
+    }
+    100% {
+        left: -50%;
+    }
+}
+
+@keyframes opos1 {
+    0% {
+        left: 50%;
+    }
+    100% {
+        left: 0%;
+    }
+}
+
+@keyframes opos2 {
+    0% {
+        left: 100%;
+    }
+    100% {
+        left: 50%;
+    }
+}
+
+
+@keyframes fadeIn {
+    0% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
 }

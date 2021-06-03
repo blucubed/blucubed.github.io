@@ -9,15 +9,15 @@
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
     </head>
-    <body>
+    <body onload="load()">
         <div id="home-cont">
             <img src="images/logo_wh.png" alt="Site Logo" class="site-logo">
 
-            <div class="description"><div class="desc-title">Bigger number better... video?</div><br>Choose the option with the higher views!</div>
+            <div class="description"><div class="desc-title">Bigger number better... video?</div><div id="mode-desc">Choose the option with the higher views!</div></div>
             
             <div class="buttons">
-                <img src="images/ludwigfrog.png" class="button-logo" id="lfrog"><button id="ytbtn" onclick="startYT()" class="wlogo">YouTube</button>
-                <img src="images/YEP.png" class="button-logo smaller" id="yep"><button id="clipsbtn" onclick="startTwitch()" class="wlogo">Clips</button>
+                <img src="images/ludwigfrog.png" class="button-logo" id="lfrog"><button id="ytbtn" onclick="start(0)" class="wlogo">YouTube</button>
+                <img src="images/YEP.png" class="button-logo smaller" id="yep"><button id="clipsbtn" onclick="start(1)" class="wlogo">Clips</button>
             </div>
         </div>
 
@@ -26,7 +26,7 @@
                 <img src="images/Sadge.png" alt="Sadge" class="sadge">
                 <div class="lose-desc">You lost!</div>
                 <div id="lose-score">You got a score of NULL!</div>
-                <button style="margin-top: 25px;" onclick="replay()">Play Again</button><br>
+                <button style="margin-top: 25px;" onclick="start()">Play Again</button><br>
                 <button style="margin-top: 25px;" onclick="home()">Home</button>
             </div>
         </div>
@@ -34,6 +34,7 @@
         <div id="game-cont">
             <div id="option-0" class="option opos1" style="background: url(images/bg-3.png);"></div>
             <div id="option-1" class="option opos2" style="background: url(images/bg-4.png);"></div>
+            <img src="images/logo_wh.png" alt="Home" class="game-site-logo" onclick="home()">
         </div>
     <div class="footer">Not affiliated with either <a href="https://ludwig.gg/" target="_blank">Ludwig</a> or <a href="http://www.higherlowergame.com/" target="_blank">Higher Lower Game</a></div>    
     </body>

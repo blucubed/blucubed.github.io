@@ -38,6 +38,11 @@ button:hover {
     background-color: white;
 }
 
+button:active {
+    transition: 0.1s;
+    transform: scale(0.95);
+}
+
 a {
     color: #8bd6fc;
 }
@@ -74,7 +79,7 @@ a {
 }
 
 .wlogo { 
-    border-radius: 0px 200px 200px 0px;
+    border-radius: 50px 200px 200px 50px;
 }
 
 .buttons {
@@ -90,6 +95,7 @@ a {
     display: block;
     left: 50px;
     pointer-events: none;
+    z-index: 10;
 }
 
 .button-div {
@@ -110,6 +116,18 @@ a {
 
 #mode-desc {
     margin-top: 20px;
+}
+
+.wobble {
+    animation: wobble ease-in-out 2s;
+    animation-delay: -1.5s;
+    animation-iteration-count: infinite;
+}
+
+.small-wobble {
+    animation: small-wobble ease-in-out 2s;
+    animation-delay: -1.5s;
+    animation-iteration-count: infinite;
 }
 
 /* Game */
@@ -151,7 +169,6 @@ a {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 100;
     width: 26vh;
     top: 10px;
     transition: all 0.2s;
@@ -173,7 +190,6 @@ a {
     text-align: center;
     box-sizing: border-box;
     padding: 60px;
-
 }
 
 .opt-vid {
@@ -184,6 +200,7 @@ a {
     transition: all 0.2s;
     vertical-align: middle;
     transform: scale(1);
+    border-radius: 10px;
 
     filter: drop-shadow(0 0px 5px rgba(0, 0, 0, 0.35));
 }
@@ -228,6 +245,9 @@ a {
     width: 32vw;
     transition: all 0.2s;
     vertical-align: middle;
+    border-radius: 10px;
+    overflow: hidden;
+    filter: drop-shadow(0 0px 5px rgba(0, 0, 0, 0.35));
 }
 
 .opt-clip video {
@@ -244,6 +264,27 @@ a {
 
 .opt-buttons button {
     border-radius: 200px;
+}
+
+/* Score */
+
+#high-score, #score {
+    position: absolute;
+    font-size: 22pt;
+}
+
+#high-score {
+    bottom: 50px;
+    left: 50px;
+}
+
+#score {
+    bottom: 50px;
+    right: 50px;
+}
+
+.score-bump {
+    animation: bump ease 0.5s;
 }
 
 /* Lose */
@@ -266,6 +307,10 @@ a {
     font-size: 16pt;
     font-weight: 400;
     margin-bottom: 40px;
+}
+
+.grow {
+    animation: grow ease 0.25s;
 }
 
 /* Animations */
@@ -304,5 +349,53 @@ a {
     }
     100% {
         opacity:1;
+    }
+}
+
+@keyframes bump {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.25);
+    }
+    100% {
+        transform: scale(1)
+    }
+}
+
+@keyframes grow {
+    0% {
+        transform: scale(0);
+    }
+    70% {
+        transform: scale(1.25);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes wobble {
+    0% {
+        transform: rotate(25deg);
+    }
+    50% {
+        transform: rotate(-25deg);
+    }
+    100% {
+        transform: rotate(25deg);
+    }
+}
+
+@keyframes small-wobble {
+    0% {
+        transform: rotate(25deg) scale(0.8);
+    }
+    50% {
+        transform: rotate(-25deg) scale(0.8);
+    }
+    100% {
+        transform: rotate(25deg) scale(0.8);
     }
 }

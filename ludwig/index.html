@@ -1,10 +1,14 @@
+<!DOCTYPE html>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Ludwig Higher or Lower</title>
         <script src="script.js"></script>
         <script src="storage/youtube.js"></script>
         <script src="storage/twitch.js"></script>
         <link rel="stylesheet" href="style.css">
+
+        <link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
 
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
@@ -23,7 +27,7 @@
 
         <div id="lose-cont" style="display: none;">
             <div class='lose-center'>
-                <img src="images/Sadge.png" alt="Sadge" class="sadge">
+                <img src="images/Sadge.png" alt="Sadge" class="sadge" id="sadge">
                 <div class="lose-desc">You lost!</div>
                 <div id="lose-score">You got a score of NULL!</div>
                 <button style="margin-top: 25px;" onclick="start()">Play Again</button><br>
@@ -32,9 +36,13 @@
         </div>
 
         <div id="game-cont">
-            <div id="option-0" class="option opos1" style="background: url(images/bg-3.png);"></div>
-            <div id="option-1" class="option opos2" style="background: url(images/bg-4.png);"></div>
+            <div id="option-cont">
+                <div id="option-0" class="option opos1" style="background: url(images/bg-3.png);"></div>
+                <div id="option-1" class="option opos2" style="background: url(images/bg-4.png);"></div>    
+            </div>
             <img src="images/logo_wh.png" alt="Home" class="game-site-logo" onclick="home()">
+            <div id="high-score">High Score: 0</div>
+            <div id="score">Score: 0</div>
         </div>
     <div class="footer">Not affiliated with either <a href="https://ludwig.gg/" target="_blank">Ludwig</a> or <a href="http://www.higherlowergame.com/" target="_blank">Higher Lower Game</a></div>    
     </body>

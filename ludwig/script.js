@@ -2,32 +2,48 @@ let currentBg = 4; // The background that the last
 let lastGm = 0;    // Last gamemode played (0: YT, 1: Clips)
 let score = 0;     // Current player score
 
+let localStorage = window.localStorage;
+
+if (!localStorage.getItem('yths')) localStorage.setItem('yths', 0);
+if (!localStorage.getItem('twhs')) localStorage.setItem('twhs', 0);
+
 let game = {left: null, right: null} // This holds the left and right videos / clips
+
+let timeouts = []
 
 function load() {
     document.getElementById('ytbtn').addEventListener('mouseover', () => {
         document.getElementById('mode-desc').innerHTML = "Pick the more popular option between two of Ludwig's 550+ YouTube videos"
+        document.getElementById('lfrog').classList = `wobble button-logo`
     })
 
     document.getElementById('clipsbtn').addEventListener('mouseover', () => {
         document.getElementById('mode-desc').innerHTML = "Pick the more popular option between two of Ludwig's top 800 Twitch clips"
+        document.getElementById('yep').classList = `small-wobble button-logo`
     })
 
     document.getElementById('ytbtn').addEventListener('mouseout', () => {
         document.getElementById('mode-desc').innerHTML = "Choose the option with the higher views!"
+        document.getElementById('lfrog').classList = `button-logo`
     })
 
     document.getElementById('clipsbtn').addEventListener('mouseout', () => {
         document.getElementById('mode-desc').innerHTML = "Choose the option with the higher views!"
+        document.getElementById('yep').classList = `button-logo smaller`
     })
 }
 
 
 // Start the game
 function start(gamemode = lastGm) {
+    if (gamemode == 0) document.getElementById('high-score').innerHTML = `High Score: ${localStorage.getItem('yths')}`
+    if (gamemode == 1) document.getElementById('high-score').innerHTML = `High Score: ${localStorage.getItem('twhs')}`
+
     score = 0;
     currentBg = 4;
     lastGm = gamemode;
+
+    document.getElementById('sadge').classList = ''
 
     resetYTVids()
     resetClips()
@@ -117,20 +133,41 @@ function guess(higher, number) {
         viewDisp.innerHTML = comma(current.toString());
         frame++;
 
-        if (frame < interval) setTimeout(() => numAnim(), animTime/interval); // Keep looping this 
+        if (frame < interval) timeouts.push(setTimeout(() => numAnim(), animTime/interval)); // Keep looping this 
         else onEnd()
     }
 
+    let win = (answer == higher || parseInt(game.left.views) == parseInt(game.right.views))
+
     function onEnd() {
         viewDisp.innerHTML = comma(game.right.views);
+        if (win) document.getElementById((score + 1) + '-viewnum').classList = `opt-big score-bump`
 
-        setTimeout(() => {
-            if (answer == higher || parseInt(game.left.views) == parseInt(game.right.views)) { // If answer is correct or the same
+        timeouts.push(setTimeout(() => {
+            if (win) { // If answer is correct or the same
                 currentBg++;
                 if (currentBg == 5) currentBg = 1;
 
+                document.getElementById((score + 1) + '-viewnum').classList = `opt-big`
+
                 score++;
-                document.getElementById('game-cont').innerHTML += `<div id="option-${score + 1}" class="option opos2" style="background: url(images/bg-${currentBg}.png);"></div>`
+                document.getElementById('score').innerHTML = `Score: ${score}`
+                document.getElementById('score').classList = `score-bump`
+                document.getElementById('score').classList = `score-bump`
+
+                if (lastGm == 0 && (localStorage.getItem('yths') < score)) {
+                    document.getElementById('high-score').innerHTML = `High Score: ${score}`
+                    localStorage.setItem('yths', score)
+                    document.getElementById('high-score').classList = `score-bump`
+                }
+
+                if (lastGm == 1 && (localStorage.getItem('twhs') < score)) {
+                    document.getElementById('high-score').innerHTML = `High Score: ${score}`
+                    localStorage.setItem('twhs', score)
+                }
+
+
+                document.getElementById('option-cont').innerHTML += `<div id="option-${score + 1}" class="option opos2" style="background: url(images/bg-${currentBg}.png);"></div>`
                 document.getElementById('option-' + (score)).classList = 'option opos1'
                 document.getElementById('option-' + (score - 1)).classList = 'option opos0'
 
@@ -140,9 +177,13 @@ function guess(higher, number) {
                 setInfo(score + 1, game.right)
                 setButtons(score + 1)
 
-                setTimeout(() => document.getElementById('option-' + (score - 1)).remove(), 250);
-            } else setTimeout(() => lose(), 500); // Lose the game after 500 ms
-        }, 1000);
+                timeouts.push(setTimeout(() => {
+                    document.getElementById('option-' + (score - 1)).remove()
+                    document.getElementById('score').classList = ``
+                    document.getElementById('high-score').classList = ``
+                }, 250))
+            } else timeouts.push(setTimeout(() => lose(), 500)); // Lose the game after 500 ms
+        }, 1000));
     }
 
     numAnim()
@@ -150,6 +191,8 @@ function guess(higher, number) {
 
 function lose() {
     resetGameCont()
+
+    document.getElementById('sadge').classList = 'grow'
 
     document.getElementById('lose-cont').style.display = 'block'
     document.getElementById('lose-score').innerHTML = `You got a score of ${score}!`
@@ -168,9 +211,13 @@ function resetGameCont() {
     document.getElementById('game-cont').style.transition = 'opacity 0s'
     document.getElementById('game-cont').style.pointerEvents = 'none'
     
-    document.getElementById('game-cont').innerHTML = `<div id="option-0" class="option opos1" style="background: url(images/bg-3.png);"></div>
-    <div id="option-1" class="option opos2" style="background: url(images/bg-4.png);"></div><img src="images/logo_wh.png" alt="Home" class="game-site-logo" onclick="home()">`
+    document.getElementById('option-cont').innerHTML = `<div id="option-0" class="option opos1" style="background: url(images/bg-3.png);"></div>
+    <div id="option-1" class="option opos2" style="background: url(images/bg-4.png);"></div>`
+    document.getElementById('score').innerHTML = `Score: 0`
 
+    timeouts.forEach(x => {
+        clearTimeout(x)
+    })
 }
 
 function comma(x) {
